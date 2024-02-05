@@ -61,21 +61,21 @@ def get_user_input():
 
 def material():
 
-    YTS = 434
-    UTS = 517
+    YTS = 1655  # кгс/мм:2
+    UTS = 1793 # кгс/мм:2
 
     # Nasgro Material parameters
-    C = 0.113E-9
-    n = 2.763
-    p = 0.5
-    q = 1
-    K1e = 1042
-    K1c = 764
-    Ak = 1
-    Bk = 1.5
-    K0 = 97
-    alpha = 1.5
-    C_th = 1.5
+    C = 0.876E-11
+    n = 2.6
+    p = 0.25
+    q = 0.25
+    K1e = 3127
+    K1c = 2970
+    Ak = 0.75
+    Bk = 0.75
+    K0 = 264
+    alpha = 2.5
+    C_th = 0.4
     return YTS, UTS, C, n, p, q, K1e, K1c, Ak, Bk, K0, alpha, C_th
 
 def nasgro_var():

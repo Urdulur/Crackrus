@@ -10,6 +10,7 @@ class CrackGrowthGUI(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
+        # self.crack_analyzer = CrackGrowthAnalyzer()  # Create an instance of the business logic class
 
     def initUI(self):
         # Main layout
@@ -123,6 +124,9 @@ class CrackGrowthGUI(QMainWindow):
         self.methodCombo.addItems(["NASGRO", "Paris-Walker", "NASGRO and Paris-Walker"])
         self.methodCombo.currentIndexChanged.connect(self.on_method_changed)
 
+        # Disconnect the signal-slot connection to prevent on_method_changed from being triggered
+        # self.methodCombo.currentIndexChanged.disconnect(self.on_method_changed) 
+
         # Group box for stress input field
         stressMaxGroup = QGroupBox("Максимальные напряжения")
         stressMaxLayout = QHBoxLayout()
@@ -176,7 +180,7 @@ class CrackGrowthGUI(QMainWindow):
         helpMenu = menubar.addMenu('Help')
         
         # Initially set visibility based on the default selection
-        self.on_method_changed()
+        # self.on_method_changed()
     
     def on_method_changed(self):
         selected_method = self.methodCombo.currentText()
@@ -184,8 +188,21 @@ class CrackGrowthGUI(QMainWindow):
         self.parisWalkerGroup.setVisible('Paris-Walker' in selected_method)
 
     def on_calculate_clicked(self):
-        # Placeholder for the calculation function
+        # Retrieve inputs from GUI components
+        geometry_inputs = {label: edit.text() for label, edit in self.geometryInputs.items()}
+        nasgro_constants = {label: edit.text() for label, edit in self.nasgroInputs.items()}
+        pariswalker_constants = {label: edit.text() for label, edit in self.parisWalkerInputs.items()}
+        stress_max = self.stressMaxInput.text()
+
+        # Perform calculations using business logic
+        result = self.crack_analyzer.calculate_growth({
+            'geometry_inputs': geometry_inputs,
+            'nasgro_constants': nasgro_constants,
+            'pariswalker_constants': pariswalker_constants,
+            'stress_max': stress_max,
+        })
         print("Calculate button clicked")
+        print(result)
     
     def save_data(self):
         # Open a file dialog to specify the filename and location to save
